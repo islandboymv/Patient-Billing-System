@@ -9,6 +9,7 @@ struct Patient {
     float treatment_cost;
 };
 
+/* Function to Add Patient and Treatment Records */
 void addPatient(struct Patient patients[], int *count) {
     struct Patient newPatient;
 
@@ -28,6 +29,7 @@ void addPatient(struct Patient patients[], int *count) {
     (*count)++;
 }
 
+/* Function to Update Patient Treatment Records using Patient ID */
 void updatePatient(struct Patient patients[], int id, int count) {
     int found = 0;
     for (int i = 0; i < count; i++) {
@@ -43,6 +45,7 @@ void updatePatient(struct Patient patients[], int id, int count) {
     }
 }
 
+/* Function to Delete Patient Records */
 void deletePatient(struct Patient patients[], int id, int *count) {
     int found = 0;
     for (int i = 0; i < *count; i++) {
@@ -62,6 +65,7 @@ void deletePatient(struct Patient patients[], int id, int *count) {
     }
 }
 
+/* Function to Add Display all Patient and Treatment Records */
 void displayPatients(struct Patient patients[], int count) {
     printf("\n+------------+----------------------------+------------------+\n");
     printf("| Patient ID | Name                       | Treatment Cost   |\n");
@@ -72,6 +76,8 @@ void displayPatients(struct Patient patients[], int count) {
     printf("+------------+----------------------------+------------------+\n");
 }
 
+
+/* Function to Add Treatment Bills */
 void addBill(struct Patient patients[], int count) {
     int id;
     float additional_cost;
@@ -87,11 +93,6 @@ void addBill(struct Patient patients[], int count) {
         }
     }
     printf("Patient with ID %d not found.\n", id);
-}
-
-float calculateBill(float treatment_cost) {
-    // You can add tax or discounts calculation here if needed
-    return treatment_cost;
 }
 
 int main() {
