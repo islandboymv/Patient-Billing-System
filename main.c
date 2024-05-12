@@ -88,12 +88,6 @@ void addBill(struct Patient patients[], int count) {
     printf("Patient with ID %d not found.\n", id);
 }
 
-/* Function to Calculate and Return Total Treatment Cost */
-float calculateBill(float treatment_cost) {
-    // You can add tax or discounts calculation here if needed
-    return treatment_cost;
-}
-
 int main() {
     struct Patient patients[MAX_PATIENTS]; // Array to store patient records
     int count = 0; // Variable to keep track of the number of patients
