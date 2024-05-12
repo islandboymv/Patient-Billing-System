@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-The Patient Billing System is a software application designed to manage patient records and billing information in a healthcare setting. It allows healthcare providers to efficiently add, delete, and update patient records, as well as manage billing information associated with each patient.
+The Patient Billing System is a software application written in the C programming language. It was developed as a college assignment to manage patient records and billing information in a healthcare setting. The system offers an array of features to enhance the efficiency and accuracy of billing processes, making it a valuable tool for healthcare providers.
 
 ## 2. Purpose
 
@@ -55,4 +55,4 @@ To use the Patient Billing System, follow these steps:
 
 ## 6. Conclusion
 
-The Patient Billing System provides healthcare providers with a convenient and efficient solution for managing patient records and billing information. By automating common tasks and offering a user-friendly interface, the system helps streamline billing processes and improve overall productivity in healthcare settings.
+The Patient Billing System provides healthcare providers with a convenient and efficient solution for managing patient records and billing information. By automating common tasks and offering a user-friendly interface, the system helps streamline billing processes and improve overall productivity in healthcare settings. Its implementation in the C programming language showcases its versatility and effectiveness as a solution for healthcare management.
