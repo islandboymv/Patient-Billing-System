@@ -10,26 +10,72 @@ struct Patient {
     float treatment_cost;
 };
 
+/* Function to Get Integer Input */
+int getIntInput(const char* prompt) {
+    int value;
+    printf("%s", prompt);
+    while (scanf("%d", &value) != 1) {
+        while (getchar() != '\n'); // Clear invalid input
+        printf("Invalid input. Please enter a valid number: ");
+    }
+    return value;
+}
+
+/* Function to Get Float Input */
+float getFloatInput(const char* prompt) {
+    float value;
+    printf("%s", prompt);
+    while (scanf("%f", &value) != 1) {
+        while (getchar() != '\n'); // Clear invalid input
+        printf("Invalid input. Please enter a valid number: ");
+    }
+    return value;
+}
+
+/* Function to Get String Input */
+void getStringInput(const char* prompt, char* buffer, int bufferSize) {
+    printf("%s", prompt);
+    getchar(); // Clear the input buffer
+    fgets(buffer, bufferSize, stdin);
+    // Remove newline character if present
+    if (buffer[strlen(buffer) - 1] == '\n') {
+        buffer[strlen(buffer) - 1] = '\0';
+    }
+}
+
+/* Function to Check for Duplicate IDs */
+int isDuplicateID(struct Patient patients[], int count, int id) {
+    for (int i = 0; i < count; i++) {
+        if (patients[i].id == id) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 /* Function to Add Patient and Treatment Records */
 void addPatient(struct Patient patients[], int *count) {
-    struct Patient newPatient;
-
-    // Input patient details from the user
-    printf("\nEnter Patient ID: ");
-    scanf("%d", &newPatient.id);
-    printf("Enter Patient Name: ");
-    getchar(); // Clear the input buffer
-    fgets(newPatient.name, sizeof(newPatient.name), stdin);
-    // Remove newline character if present
-    if (newPatient.name[strlen(newPatient.name) - 1] == '\n') {
-        newPatient.name[strlen(newPatient.name) - 1] = '\0';
+    if (*count >= MAX_PATIENTS) {
+        printf("Patient list is full. Cannot add more patients.\n");
+        return;
     }
-    printf("Enter Treatment Cost: ");
-    scanf("%f", &newPatient.treatment_cost);
+
+    struct Patient newPatient;
+    newPatient.id = getIntInput("Enter Patient ID: ");
+
+    // Check for duplicate ID
+    if (isDuplicateID(patients, *count, newPatient.id)) {
+        printf("Patient with ID %d already exists. Please use a unique ID.\n", newPatient.id);
+        return;
+    }
+
+    getStringInput("Enter Patient Name: ", newPatient.name, sizeof(newPatient.name));
+    newPatient.treatment_cost = getFloatInput("Enter Treatment Cost: ");
 
     // Add the new patient to the array
     patients[*count] = newPatient;
     (*count)++;
+    printf("Patient added successfully.\n");
 }
 
 /* Function to Delete Patient Records */
@@ -47,9 +93,9 @@ void deletePatient(struct Patient patients[], int id, int *count) {
         }
     }
     if (!found) {
-        printf("\nPatient with ID %d not found.\n", id);
+        printf("Patient with ID %d not found.\n", id);
     } else {
-        printf("\nPatient with ID %d deleted successfully.\n", id);
+        printf("Patient with ID %d deleted successfully.\n", id);
     }
 }
 
@@ -61,7 +107,7 @@ void displayPatients(struct Patient patients[], int count) {
     printf("+------------+----------------------------+------------------+\n");
     // Iterate through the patients array and print each patient's details
     for (int i = 0; i < count; i++) {
-        printf("| %-10d | %-26s | %.2f           |\n", patients[i].id, patients[i].name, patients[i].treatment_cost);
+        printf("| %-10d | %-26s | %-16.2f |\n", patients[i].id, patients[i].name, patients[i].treatment_cost);
     }
     // Print table footer
     printf("+------------+----------------------------+------------------+\n");
@@ -69,16 +115,12 @@ void displayPatients(struct Patient patients[], int count) {
 
 /* Function to Add Treatment Bills */
 void addBill(struct Patient patients[], int count) {
-    int id;
+    int id = getIntInput("Enter Patient ID to add bill: ");
     float additional_cost;
-    // Prompt user for patient ID and additional bill amount
-    printf("\nEnter Patient ID to add bill: ");
-    scanf("%d", &id);
+
     for (int i = 0; i < count; i++) {
         if (patients[i].id == id) {
-            // Prompt user for additional bill amount for the specified patient
-            printf("Enter additional bill amount for %s: ", patients[i].name);
-            scanf("%f", &additional_cost);
+            additional_cost = getFloatInput("Enter additional bill amount: ");
             patients[i].treatment_cost += additional_cost; // Add the additional bill to the treatment cost
             printf("Additional bill added successfully.\n");
             return; // Exit the function after adding the bill
@@ -106,7 +148,8 @@ int main() {
         printf("|   5    | Exit                           |\n");
         printf("+----------------------------------------+\n");
         printf("Select an option (1-5): ");
-        scanf("%d", &choice);
+
+        choice = getIntInput("");
 
         // Switch case based on user choice
         switch (choice) {
@@ -114,8 +157,7 @@ int main() {
                 addPatient(patients, &count); // Add new patient
                 break;
             case 2:
-                printf("\nEnter Patient ID to Delete: ");
-                scanf("%d", &id);
+                id = getIntInput("Enter Patient ID to Delete: ");
                 deletePatient(patients, id, &count); // Delete patient
                 break;
             case 3:
@@ -125,10 +167,10 @@ int main() {
                 addBill(patients, count); // Add additional bill for a patient
                 break;
             case 5:
-                printf("\nExiting the Program...\n"); // Exit the program
+                printf("Exiting the Program...\n"); // Exit the program
                 break;
             default:
-                printf("\nInvalid option. Please select a valid option (1-5).\n"); // Invalid option
+                printf("Invalid option. Please select a valid option (1-5).\n"); // Invalid option
         }
     } while (choice != 5); // Continue loop until user chooses to exit
 
